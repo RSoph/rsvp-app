@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
 
   get '/sms-quickstart' => 'rsvp#index'
+  post '/sms-quickstart' => 'rsvp#index'
 
   root 'rsvp#index'
 
