@@ -12,18 +12,12 @@ class RsvpController < ApplicationController
   		# binding.pry
 
 
-
-  # 		 account_sid = "I put my ID here"
-  # auth_token = "I put my auth token here"
-  # twilio_phone_number = "xxxxxxxxx"
-
 		message_body = params["Body"]
 		message_body ||= "just testing"
 		from_number = params["From"]
 		from_number ||= '7187535492'
 		client = Twilio::REST::Client.new Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token
 
-  # @client = Twilio::REST::Client.new(account_sid, auth_token)
   		client.account.sms.messages.create(
 	    from: "+15675234372",
 	    to: "+1#{from_number}",
@@ -34,4 +28,8 @@ class RsvpController < ApplicationController
 	def notify
 
 	end
+
+	def rsvp_params
+      params.permit(:message_body, :from_number)
+    end
 end
