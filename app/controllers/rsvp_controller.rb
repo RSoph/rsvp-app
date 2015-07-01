@@ -1,5 +1,11 @@
 class RsvpController < ApplicationController
 
+	MY_NUMBER = "+17187535492"
+	TO_EMAIL = "theladiesb@gmail.com"
+	# SMTP_HOST = "<SMTP hostname here>"
+	# SMTP_USER = "<your username here>"
+	# SMTP_PASSWORD = "<your password here>"
+
 	def index
 
 		message_body = params["Body"]
@@ -29,6 +35,40 @@ class RsvpController < ApplicationController
 	end
 
 	def notify
+	end
+
+	def answer
+	    Twilio::TwiML::Response.new do |r|
+	        r.Say "Thanks for calling, please leave a message"
+			r.Record :action => "/save-recording", :method => "get"
+	        end
+	    end.text
+	end
+
+	def save
+	    send_message("New Message on the hotline",
+	                 "Message length: #{params['RecordingDuration']}",
+	                 params['RecordingUrl'] + '.mp3')
+	 
+	    Twilio::TwiML::Response.new do |r|
+	        r.Say "Thank you for calling. Bye!"
+	        r.Hangup
+	    end.text		
+	end
+
+	def send_message(subject, message, file_url)
+    Pony.mail({
+        :to => TO_EMAIL
+        :body => message,
+        :via => :smtp,
+        :via_options => {
+            # :address => SMTP_HOST,
+            # :user_name => SMTP_USER,
+            # :password => SMTP_PASSWORD,
+            # :port => SMTP_PORT,
+            :authentication => :plain },
+        :attachments => {"message.mp3" => open(file_url) {|f| f.read }}
+    })
 	end
 
 	def rsvp_params
