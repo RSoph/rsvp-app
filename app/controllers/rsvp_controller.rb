@@ -15,7 +15,12 @@ class RsvpController < ApplicationController
 	  		message = client.messages.create(
 		    from: "+15675234372",
 		    to: "#{from_number}",
-		    body: "Great to hear from you! Please let us know the following: 1) Your name 2) If you will be attending the wedding 3) If you will be attending the Friday Night Reception - all are welcome! 4) How many people you'll be bringing including yourself."
+		    body: "Great to hear from you! Please let us know the following: 1) Your name 2) If you will be attending the wedding..."
+		    )
+	  		message = client.messages.create(
+		    from: "+15675234372",
+		    to: "#{from_number}",
+		    body: "...3) If you will be attending the Friday Night Reception - all are welcome! 4) How many people you'll be bringing including yourself."
 	  		)
 
 	  	else #if session["counter"] > 0
