@@ -2,8 +2,8 @@ class RsvpController < ApplicationController
 
 	def index
 
-		enable :sessions
-		session["counter"] ||= 0
+		# enable :sessions
+		# session["counter"] ||= 0
 
 		message_body = params["Body"]
 		message_body ||= "just testing"
@@ -18,7 +18,7 @@ class RsvpController < ApplicationController
 		    body: "Great to hear from you! Please let us know the following: 1) Your name 2) If you will be attending the wedding 3) If you will be attending the Friday Night Reception - all are welcome! 4) How many people you'll be bringing including yourself."
 	  		)
 
-	  	elsif session["counter"] > 0
+	  	else #if session["counter"] > 0
 	  		message = client.messages.create(
 		    from: "+15675234372",
 		    to: "#{from_number}",
