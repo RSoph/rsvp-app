@@ -31,45 +31,51 @@ class RsvpController < ApplicationController
 		    to: "#{from_number}",
 		    body: "Thanks for the response! If your RSVP changes, you can always text again."
 	  		)
+
+	  		message = client.messages.create(
+		    from: "+15675234372",
+		    to: "7187535492",
+		    body: "incoming rsvp: #{params["Body"]}"
+	  		)
 	  	end
 	end
 
 	def notify
 	end
 
-	def answer
-	    Twilio::TwiML::Response.new do |r|
-	        r.Say "Thanks for calling, please leave a message"
-			r.Record :action => "/save-recording", :method => "get"
-	        end
-	    end.text
-	end
+	# def answer
+	#     Twilio::TwiML::Response.new do |r|
+	#         r.Say "Thanks for calling, please leave a message"
+	# 		r.Record :action => "/save-recording", :method => "get"
+	#         end
+	#     end.text
+	# end
 
-	def save
-	    send_message("New Message on the hotline",
-	                 "Message length: #{params['RecordingDuration']}",
-	                 params['RecordingUrl'] + '.mp3')
+	# def save
+	#     send_message("New Message on the hotline",
+	#                  "Message length: #{params['RecordingDuration']}",
+	#                  params['RecordingUrl'] + '.mp3')
 	 
-	    Twilio::TwiML::Response.new do |r|
-	        r.Say "Thank you for calling. Bye!"
-	        r.Hangup
-	    end.text		
-	end
+	#     Twilio::TwiML::Response.new do |r|
+	#         r.Say "Thank you for calling. Bye!"
+	#         r.Hangup
+	#     end.text		
+	# end
 
-	def send_message(subject, message, file_url)
-    Pony.mail({
-        :to => TO_EMAIL
-        :body => message,
-        :via => :smtp,
-        :via_options => {
-            # :address => SMTP_HOST,
-            # :user_name => SMTP_USER,
-            # :password => SMTP_PASSWORD,
-            # :port => SMTP_PORT,
-            :authentication => :plain },
-        :attachments => {"message.mp3" => open(file_url) {|f| f.read }}
-    })
-	end
+	# def send_message(subject, message, file_url)
+ #    Pony.mail({
+ #        :to => TO_EMAIL
+ #        :body => message,
+ #        :via => :smtp,
+ #        :via_options => {
+ #            # :address => SMTP_HOST,
+ #            # :user_name => SMTP_USER,
+ #            # :password => SMTP_PASSWORD,
+ #            # :port => SMTP_PORT,
+ #            :authentication => :plain },
+ #        :attachments => {"message.mp3" => open(file_url) {|f| f.read }}
+ #    })
+	# end
 
 	def rsvp_params
       params.permit(:message_body, :from_number)
