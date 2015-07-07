@@ -1,14 +1,9 @@
 class RsvpController < ApplicationController
 
-
-
-
 	def index
-
 		message_body = params["Body"]
 		message_body ||= "just testing"
 		from_number = params["From"]
-
 
 		client = Twilio::REST::Client.new Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token
 
@@ -40,15 +35,14 @@ class RsvpController < ApplicationController
 	end
 
 	def count
-		@texts = ["Great to hear from you! What's your name?", 
-				"Will you be able to come to Kate and Danielle's wedding? Please give me a 'yes' or a 'no'", 
-				"Great! Will you also join us for the Friday Night Reception? Please give me a 'yes' or a 'no'", 
-				"That's too bad, you will be missed! If anything changes, feel free to text 'rsvp' again to start over!", 
-				"Fantastic! How many other people are coming with you? Just a number will do.", 
-				"That's too bad, you'll be missed. How many other people are coming with you to the wedding?", 
-				"Great! Looking forward to seeing you. If anything changes, feel free to text 'rsvp' again to start over!",
-				"I didn't get that, could you try again with just a 'yes' or a 'no'?"]
-
+		@texts = ["Thanks for texting The Ladies B RSVP line! We're so glad to hear from you! What's your name?", 
+				"OK, will you be coming to Kate and Danielle's wedding on Saturday, September 12? Please respond 'yes' or a 'no'", 
+				"Great! Will you also join us for a welcome reception on Friday evening (details tbd)? Please respond 'yes' or a 'no'", 
+				"Oh, that's too bad, you will be missed! If anything changes, feel free to text 'RSVP' again to start over.", 
+				"Awesome! How many other people are coming with you? Just a number will do.", 
+				"That's too bad! You'll be missed. How many other people are coming with you to the wedding?", 
+				"Great! We are so looking forward to seeing you. If anything changes, feel free to text 'RSVP' again to start over.",
+				"Sorry, I didn't get that. Could you try again with just a 'yes' or a 'no'? Or, you can call this number and leave a message instead."]
 
 		message_body = params["Body"]
 		message_body ||= "just testing"
