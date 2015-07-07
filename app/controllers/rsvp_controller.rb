@@ -36,7 +36,7 @@ class RsvpController < ApplicationController
 
 	def count
 		@texts = ["Thanks for texting The Ladies B RSVP line! We're so glad to hear from you! What's your name?", 
-				"OK, will you be coming to Kate and Danielle's wedding on Saturday, September 12? Please respond 'yes' or a 'no'", 
+				"will you be coming to Kate and Danielle's wedding on Saturday, September 12? Please respond 'yes' or a 'no'", 
 				"Great! Will you also join us for a welcome reception on Friday evening (details tbd)? Please respond 'yes' or a 'no'", 
 				"Oh, that's too bad, you will be missed! If anything changes, feel free to text 'RSVP' again to start over.", 
 				"Awesome! How many other people are coming with you? Just a number will do.", 
@@ -72,7 +72,7 @@ class RsvpController < ApplicationController
 	  		message = client.messages.create(
 		    from: "+15675234372",
 		    to: "#{from_number}",
-		    body: @texts[1]
+		    body: "Hey #{firstname}, #{@texts[1]}"
 	  		)
 		elsif person.count == 2 # are you coming to the wedding?
 			if message_body.downcase.strip == 'yes' # move on to the next question
