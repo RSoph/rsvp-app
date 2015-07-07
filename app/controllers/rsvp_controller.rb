@@ -83,7 +83,7 @@ class RsvpController < ApplicationController
 			    to: "#{from_number}",
 			    body: @texts[2]
 		  		)
-			elsif message_body.downcase.strip == 'no' # reset sessions to 0 so they can start over if necessary
+			elsif message_body.downcase.strip == 'no' # reset count to 0 so they can start over if necessary
 				person.count = 0
 				person.save
 				message = client.messages.create(
@@ -123,11 +123,12 @@ class RsvpController < ApplicationController
 		  		)
 			end
 		elsif person.count == 4 # how many people?
-				message = client.messages.create(
-			    from: "+15675234372",
-			    to: "#{from_number}",
-			    body: @texts[6]
-		  		)	
+			person.count = 0 # reset to 0 so it doesn't repetitavely send thank you texts
+			message = client.messages.create(
+			from: "+15675234372",
+			to: "#{from_number}",
+			body: @texts[6]
+		  	)	
 		end
 		render nothing: true
 	end
