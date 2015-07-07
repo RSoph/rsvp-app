@@ -71,7 +71,7 @@ class RsvpController < ApplicationController
 		    to: "#{from_number}",
 		    body: @texts[0]
 	  		)
-		elsif from_hash[from_number] == 1 # what's your name?
+		elsif person.count == 1 # what's your name?
 			person.count += 1
 			person.save
 			firstname = body.split(" ")[0]
@@ -80,7 +80,7 @@ class RsvpController < ApplicationController
 		    to: "#{from_number}",
 		    body: "Hey #{firstname}" + @texts[1]
 	  		)
-		elsif from_hash[from_number] == 2 # are you coming to the wedding?
+		elsif person.count == 2 # are you coming to the wedding?
 			if message_body.downcase.strip == 'yes' # move on to the next question
 				person.count += 1
 				person.save
@@ -104,7 +104,7 @@ class RsvpController < ApplicationController
 			    body: @texts[7]
 		  		)	
 		  	end
-		elsif from_hash[from_number] == 3 # are you coming to friday?
+		elsif person.count == 3 # are you coming to friday?
 			if message_body.downcase.strip == 'yes'
 				person.count += 1
 				person.save
@@ -128,7 +128,7 @@ class RsvpController < ApplicationController
 			    body: @texts[7]
 		  		)
 			end
-		elsif from_hash[from_number] == 4 # how many people?
+		elsif person.count == 4 # how many people?
 				message = client.messages.create(
 			    from: "+15675234372",
 			    to: "#{from_number}",
