@@ -135,7 +135,7 @@ class RsvpController < ApplicationController
 			    body: @texts[6]
 		  		)	
 		end
-		render plain: "OK", layout: false
+		render nothing: true
 	end
 
 	def rsvp_params
