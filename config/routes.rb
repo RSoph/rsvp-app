@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root 'rsvp#index'
+  root 'rsvp#count'
 
   get '/answer' => 'rsvp#answer'
   get '/save-recording' => 'rsvp#save'
