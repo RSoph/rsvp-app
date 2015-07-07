@@ -74,7 +74,7 @@ class RsvpController < ApplicationController
 		elsif person.count == 1 # what's your name?
 			person.count += 1
 			person.save
-			firstname = body.split(" ")[0]
+			firstname = message_body.split(" ")[0]
 	  		message = client.messages.create(
 		    from: "+15675234372",
 		    to: "#{from_number}",
