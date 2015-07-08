@@ -205,7 +205,9 @@ class RsvpController < ApplicationController
 	  			message(from_number, @texts[7])
 			end
 		elsif person.count == 4 # how many people?
-				message(from_number, @texts[6])
+			message(from_number, @texts[6])
+			person.count = 0
+			person.save
 		end
 		render nothing: true
 	end
