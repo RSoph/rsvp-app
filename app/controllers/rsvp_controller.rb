@@ -166,10 +166,18 @@ class RsvpController < ApplicationController
 			person.save
 		end
 
-		if body == 'thanks' # easter egg
+		if body == 'thanks' || body == 'thanks!' || body == 'thank you' || body == 'thank you!' || body == 'thanks.' || body  == 'thank you.' || body  == 'ok' || body == 'ok.' # easter egg
 			message(from_number, "Thanks for texting! If you have any questions, hopefully they'll be answered at our website: www.theladiesb.nyc")
 		elsif body == '<3'
 			message(from_number, "<3")
+		elsif body.split(" ").join("") == 'upupdowndownleftrightleftrightbastart'
+			message(from_number, "Never gonna give you up")
+			message(from_number, "Never gonna let you down")
+			message(from_number, "Never gonna run around and desert you")
+			message(from_number, "Never gonna make you cry")
+			message(from_number, "Never gonna say goodbye")
+			message(from_number, "Never gonna tell a lie and hurt you")
+			message('7187535492', 'someone got rick rolled')
 		elsif body == 'rsvp' # beginning
 				person.count = 1
 				person.save
@@ -181,11 +189,11 @@ class RsvpController < ApplicationController
 			firstname = message_body.split(" ")[0]
 		 		message(from_number, "Hey #{firstname}, #{@texts[1]}") 
 		elsif person.count == 2 # are you coming to the wedding?
-			if body == 'yes' # move on to the next question
+			if body == 'yes' || body == 'yes!' # move on to the next question
 				person.count += 1
 				person.save
 				message(from_number, @texts[2])
-			elsif body == 'no' # reset sessions to 0 so they can start over if necessary
+			elsif body == 'no' || body == 'no.'# reset count to 0 so they can start over if necessary
 				person.count = 0
 				person.save
 	  			message(from_number, @texts[3])		
@@ -193,11 +201,11 @@ class RsvpController < ApplicationController
 	  			message(from_number, @texts[7])
 		  	end
 		elsif person.count == 3 # are you coming to friday?
-			if body == 'yes'
+			if body == 'yes' || body = 'yes!'
 				person.count += 1
 				person.save
 	  			message(from_number, @texts[4])
-			elsif body == 'no'
+			elsif body == 'no' || body == 'no.'
 				person.count += 1
 				person.save
 	  			message(from_number, @texts[5])
@@ -206,7 +214,7 @@ class RsvpController < ApplicationController
 			end
 		elsif person.count == 4 # how many people?
 			message(from_number, @texts[6])
-			person.count = 0
+			person.count = 0 # reset count to 0 so they don't keep getting the thank you text
 			person.save
 		end
 		render nothing: true
