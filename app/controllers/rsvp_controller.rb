@@ -143,7 +143,9 @@ class RsvpController < ApplicationController
 				"Great! We are so looking forward to seeing you. If anything changes, feel free to text 'RSVP' again to start over.",
 				"Sorry, I didn't get that. Could you try again with just a 'yes' or a 'no'? Or, you can call this number and leave a message instead."]
 
+
 		def message(to_number, text_body)
+			client = Twilio::REST::Client.new Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token
 			message = client.messages.create(
 			from: "+15675234372",
 			to: to_number,
@@ -163,7 +165,6 @@ class RsvpController < ApplicationController
 			person.count = 0
 			person.save
 		end
-		client = Twilio::REST::Client.new Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token
 
 		if body == 'thanks' # easter egg
 			message(from_number, "Thanks for texting! If you have any questions, hopefully they'll be answered at our website: www.theladiesb.nyc")
@@ -205,8 +206,8 @@ class RsvpController < ApplicationController
 			end
 		elsif person.count == 4 # how many people?
 				message(from_number, @texts[6])
-		render nothing: true
 		end
+		render nothing: true
 	end
 
 	private
