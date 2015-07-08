@@ -174,41 +174,42 @@ class RsvpController < ApplicationController
 				person.save
 		  		message(from_number, texts[0])
 		  		message('7187535492', 'new rsvp')
-			elsif person.count == 1 # what's your name?
+		elsif person.count == 1 # what's your name?
+			person.count += 1
+			person.save
+			firstname = message_body.split(" ")[0]
+		 		message(from_number, "Hey #{firstname}, #{texts[1]}") 
+		elsif person.count == 2 # are you coming to the wedding?
+			if body == 'yes' # move on to the next question
 				person.count += 1
 				person.save
-				firstname = message_body.split(" ")[0]
-		  		message(from_number, "Hey #{firstname}, #{texts[1]}") 
-			elsif person.count == 2 # are you coming to the wedding?
-				if body == 'yes' # move on to the next question
-					person.count += 1
-					person.save
-					message(from_number, texts[2])
-				elsif body == 'no' # reset sessions to 0 so they can start over if necessary
-					person.count = 0
-					person.save
-		  			message(from_number, texts[3])		
-				else	# didn't understand, do not change sessions
-		  			message(from_number, texts[7])
-			  	end
-			elsif person.count == 3 # are you coming to friday?
-				if body == 'yes'
-					person.count += 1
-					person.save
-		  			message(from_number, texts[4])
-				elsif body == 'no'
-					person.count += 1
-					person.save
-		  			message(from_number, texts[5])
-				else
-		  			message(from_number, texts[7])
-				end
-			elsif person.count == 4 # how many people?
-		  			message(from_number, texts[6])
+				message(from_number, texts[2])
+			elsif body == 'no' # reset sessions to 0 so they can start over if necessary
+				person.count = 0
+				person.save
+	  			message(from_number, texts[3])		
+			else	# didn't understand, do not change sessions
+	  			message(from_number, texts[7])
+		  	end
+		elsif person.count == 3 # are you coming to friday?
+			if body == 'yes'
+				person.count += 1
+				person.save
+	  			message(from_number, texts[4])
+			elsif body == 'no'
+				person.count += 1
+				person.save
+	  			message(from_number, texts[5])
+			else
+	  			message(from_number, texts[7])
 			end
-			render nothing: true
+		elsif person.count == 4 # how many people?
+				message(from_number, texts[6])
+		render nothing: true
 		end
 	end
+
+	private
 
 	def rsvp_params
       params.permit(:message_body, :from_number)
