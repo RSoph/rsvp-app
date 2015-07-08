@@ -132,14 +132,6 @@ class RsvpController < ApplicationController
 		render nothing: true
 	end
 
-	def message(to_number, text_body)
-	message = client.messages.create(
-	from: "+15675234372",
-	to: to_number,
-	body: text_body
-	)
-end
-
 	def count_two
 		@texts = ["Thanks for texting The Ladies B RSVP line! We're so glad to hear from you! What's your name?", 
 				"will you be coming to Kate and Danielle's wedding on Saturday, September 12? Please respond 'yes' or a 'no'", 
@@ -149,6 +141,14 @@ end
 				"That's too bad! You'll be missed. How many other people are coming with you to the wedding?", 
 				"Great! We are so looking forward to seeing you. If anything changes, feel free to text 'RSVP' again to start over.",
 				"Sorry, I didn't get that. Could you try again with just a 'yes' or a 'no'? Or, you can call this number and leave a message instead."]
+
+		def message(to_number, text_body)
+			message = client.messages.create(
+			from: "+15675234372",
+			to: to_number,
+			body: text_body
+			)
+		end
 
 		message_body = params["Body"]
 		message_body ||= "just testing"
