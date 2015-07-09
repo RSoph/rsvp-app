@@ -8,7 +8,8 @@ class RsvpController < ApplicationController
 				"Awesome! How many other people are coming with you? Just a number will do.", 
 				"That's too bad! You'll be missed. How many other people are coming with you to the wedding?", 
 				"Great! We are so looking forward to seeing you. If anything changes, feel free to text 'RSVP' again to start over.",
-				"Sorry, I didn't get that. Could you try again with just a 'yes' or a 'no'? Or, you can call this number and leave a message instead."]
+				"Sorry, I didn't get that. Could you try again with just a 'yes' or a 'no'? Or, you can call this number and leave a message instead.",
+				"Thanks for texting! If you haven't done so yet, please text back 'rsvp' to start the RSVP"]
 
 		def message(to_number, text_body)
 			client = Twilio::REST::Client.new Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token
@@ -82,6 +83,8 @@ class RsvpController < ApplicationController
 			message(from_number, @texts[6])
 			person.count = 0 # reset count to 0 so they don't keep getting the thank you text
 			person.save
+		else
+			message(from_number, @texts[8])
 		end
 		render nothing: true
 	end
