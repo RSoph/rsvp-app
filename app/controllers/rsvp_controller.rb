@@ -50,6 +50,12 @@ class RsvpController < ApplicationController
 				person.save
 		  		message(from_number, @texts[0])
 		  		message('7187535492', 'new rsvp')
+		elsif body[0..3] == 'rsvp' # alternate beginning
+				person.count = 2
+				person.save
+				firstname = message_body.split(" ")[1]
+				message(from_number, "Hey #{firstname}, #{@texts[1]}") # Hey firstname, are you coming to the wedding?
+		  		message('7187535492', 'new rsvp')
 		elsif person.count == 1 # what's your name?
 			person.count += 1
 			person.save
@@ -68,7 +74,7 @@ class RsvpController < ApplicationController
 	  			message(from_number, @texts[7])
 		  	end
 		elsif person.count == 3 # are you coming to friday?
-			if body == 'yes' || body = 'yes!'
+			if body == 'yes' || body == 'yes!'
 				person.count += 1
 				person.save
 	  			message(from_number, @texts[4])
